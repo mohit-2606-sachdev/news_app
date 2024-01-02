@@ -1,0 +1,30 @@
+<div>
+    <ul>
+        
+        <% if @article.images.attached? %>
+        <li>
+            <% @article.images.each do |image|%>
+        <%= image_tag image %>
+        <%end%>
+    </li>
+            <%end%>
+        <li>
+            <%= @article.title %>
+        </li><li>
+            <%= @article.subtopic %>
+        </li><li>
+            <%= @article.content %>
+        </li><li>
+            <%= @article.category.name %>
+        </li><li>
+            <%= @article.user.name %>
+        </li>
+        <% if user_signed_in? && current_user.has_role?(:editor) %>
+        <li>
+            <%= link_to "Edit" , edit_article_path(@article) %>
+            <%= link_to "Delete" , article_path(@article) , method: :delete %>
+        </li>
+        <%end%>
+        <%= link_to "Home", root_path %>
+    </ul>
+</div>

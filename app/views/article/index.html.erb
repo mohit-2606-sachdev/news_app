@@ -1,0 +1,44 @@
+<h1>Article#index</h1>
+<p>Find me in app/views/article/index.html.erb</p>
+
+    <%= link_to "New" , new_article_path %>
+    <% if user_signed_in? %>
+    <%= link_to "Logout" , destroy_user_session_path , method: :delete %>
+    <%else%>
+    <%= link_to "Login" , new_user_session_path %>
+    <%= link_to "Signup" , new_user_registration_path %>
+    <%end%>
+
+<div>
+
+    <% @articles.each do |article| %>
+
+    <ul>
+        <li>
+            <%= article.title %>
+        </li><li>
+            <%= article.subtopic %>
+        </li><li>
+            <%= article.content %>
+        </li><li>
+            <%= article.category.name %>
+        </li><li>
+            <%= article.user.name %>
+        </li>
+        <li>
+            <%= link_to "Show" , article_path(article) %>
+        </li>
+        
+        <% if user_signed_in? && current_user.has_role?(:editor) %>
+        <li>
+            <%= link_to "Edit" , edit_article_path(article) %>
+            <%= link_to "Delete" , article_path(article) , method: :delete %>
+        </li>
+        <%end%>
+    </ul>
+
+    <% end %>
+
+    
+    
+</div>
