@@ -4,10 +4,14 @@ class ArticleController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update, :destroy]
 
   def index
+    # @articles = Article.includes(:category ,:user)
+    # render json: @articles.to_json(include: {category:{} , user:{}})
     @articles = Article.all
+    render json: @articles
   end
 
   def show
+    render json: @article
   end
 
   def create
@@ -22,14 +26,17 @@ class ArticleController < ApplicationController
 
   def new
     @article = Article.new
+    render json: @article
   end
 
   def edit
+    render json: @article,status: :ok
   end
 
   def update
     if @article.update(article_params)
-      redirect_to @article, notice: 'Article was successfully updated.'
+      # redirect_to @article, notice: 'Article was successfully updated.'
+      render "Successfully updated"
     else
       render :edit
     end
