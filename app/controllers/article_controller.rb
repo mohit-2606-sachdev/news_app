@@ -1,6 +1,6 @@
 class ArticleController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :new, :edit, :update, :destroy]
-  before_action :authorize_editor, only: [:create, :new, :edit, :update, :destroy]
+  # before_action :authenticate_user!, only: [:create, :new, :edit, :update, :destroy]
+  # before_action :authorize_editor, only: [:create, :new, :edit, :update, :destroy]
   before_action :set_article, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -15,10 +15,12 @@ class ArticleController < ApplicationController
   end
 
   def create
-    @article = current_user.articles.build(article_params)
+    # @article = current_user.articles.build(article_params)
+    @article = Article.new(article_params)
 
     if @article.save
-      redirect_to @article, notice: 'Article was successfully created.'
+      render json: @article , status: :ok
+      # redirect_to @article, notice: 'Article was successfully created.'
     else
       render :new
     end
@@ -35,16 +37,18 @@ class ArticleController < ApplicationController
 
   def update
     if @article.update(article_params)
+      render json: @article , status: :ok
       # redirect_to @article, notice: 'Article was successfully updated.'
-      render "Successfully updated"
+      # render "Successfully updated"
     else
       render :edit
     end
   end
 
   def destroy
+    render json: @article , status: :no_content
     @article.destroy
-    redirect_to article_path, notice: 'Article was successfully destroyed.'
+    # redirect_to article_path, notice: 'Article was successfully destroyed.'
   end
 
   private
